@@ -61,14 +61,12 @@ export const App = () => {
   };
 
   const imageClickHandler = url => {
-    console.log('url', url);
     setModalURL(url);
     toggleModal();
   };
 
   const toggleModal = () => {
     setShowModal(showModal => !showModal);
-    console.log(showModal);
   };
 
   return (
