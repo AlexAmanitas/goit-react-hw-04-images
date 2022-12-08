@@ -7,7 +7,6 @@ const ImageGalleryItem = ({
   onClick,
 }) => {
   const handleImgClick = evt => {
-    console.log('object', largeImageURL);
     onClick(largeImageURL);
   };
 
