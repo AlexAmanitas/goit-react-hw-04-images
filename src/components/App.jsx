@@ -28,37 +28,37 @@ export const App = () => {
     if (!searchQuery) {
       return;
     }
+
     setIsLoading(true);
-    try {
-      const findPictures = fetchPictures(searchQuery, pageNumber);
-      setLoadMore(true);
-      findPictures.then(res => {
+    const findPictures = fetchPictures(searchQuery, pageNumber);
+    setLoadMore(true);
+
+    findPictures
+      .then(res => {
         console.log(res);
         if (res.length === 0) {
           Notiflix.Notify.failure(
             'Sorry, there are no images matching your search query. Please try again.'
           );
           setLoadMore(false);
+          setIsLoading(false);
         }
-
         if (res.length < 12) {
           setLoadMore(false);
+          setIsLoading(false);
         }
-        setPictures([...pictures, ...res]);
+        setPictures(prevPictures => [...prevPictures, ...res]);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-    } catch (error) {
-      // setError(error);
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [searchQuery, pageNumber, loadMore]);
+  }, [searchQuery, pageNumber]);
 
   const formSubmitHandler = query => {
     setSearchQuery(query);
     setPageNumber(1);
     setPictures([]);
-    // localStorage.setItem('pictures', JSON.stringify(this.state.pictures));
+    setLoadMore(false);
   };
 
   const imageClickHandler = url => {
@@ -68,9 +68,7 @@ export const App = () => {
   };
 
   const toggleModal = () => {
-    setShowModal(showModal => {
-      return !showModal;
-    });
+    setShowModal(showModal => !showModal);
     console.log(showModal);
   };
 
