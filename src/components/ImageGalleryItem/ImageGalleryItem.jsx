@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 
 import '../ImageGalleryItem/ImageGalleryItem.css';
 
-const ImageGalleryItem = props => {
-  const { largeImageURL, previewURL, tags } = props.picture;
-
+const ImageGalleryItem = ({
+  picture: { largeImageURL, previewURL, tags },
+  onClick,
+}) => {
   const handleImgClick = evt => {
     console.log('object', largeImageURL);
-    props.onClick(largeImageURL);
+    onClick(largeImageURL);
   };
 
   return (

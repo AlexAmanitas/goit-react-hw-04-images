@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Notiflix from 'notiflix';
 import fetchPictures from './pictureApiService';
 import SearchBar from 'components/Searchbar';
@@ -14,117 +14,89 @@ Notiflix.Notify.init({
   fontSize: '20px',
 });
 
-export class App extends Component {
-  state = {
-    pictures: [],
-    isLoading: false,
-    showModal: false,
-    loadMore: false,
-    error: null,
-    searchQuery: '',
-    pageNumber: 1,
-    modalURL: '',
-  };
+export const App = () => {
+  const [pictures, setPictures] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+  const [modalURL, setModalURL] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadMore, setLoadMore] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  // const [error, setError] = useState(null);
 
-  // async componentDidMount() {
-  //   this.setState({ isLoading: true });
-  //   try {
-  //     const pictures = await fetchPictures(
-  //       this.state.searchQuery,
-  //       this.state.pageNumber
-  //     );
-  //     this.setState({ pictures });
-  //   } catch (error) {
-  //     this.setState({ error });
-  //     console.log(error);
-  //   } finally {
-  //     this.setState({ isLoading: false });
-  //     // console.log('dfegdh');
-  //   }
-  // }
-
-  async componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.searchQuery !== prevState.searchQuery ||
-      this.state.pageNumber !== prevState.pageNumber
-    ) {
-      this.setState({ isLoading: true });
-      try {
-        const pictures = await fetchPictures(
-          this.state.searchQuery,
-          this.state.pageNumber
-        );
-        this.setState({ loadMore: true });
-        if (pictures.length === 0) {
+  useEffect(() => {
+    if (!searchQuery) {
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const findPictures = fetchPictures(searchQuery, pageNumber);
+      setLoadMore(true);
+      findPictures.then(res => {
+        console.log(res);
+        if (res.length === 0) {
           Notiflix.Notify.failure(
             'Sorry, there are no images matching your search query. Please try again.'
           );
-          this.setState({ loadMore: false });
+          setLoadMore(false);
         }
 
-        if (pictures.length < 12) {
-          this.setState({ loadMore: false });
+        if (res.length < 12) {
+          setLoadMore(false);
         }
-
-        this.setState({
-          pictures: [...this.state.pictures, ...pictures],
-        });
-      } catch (error) {
-        this.setState({ error });
-        console.log(error);
-      } finally {
-        this.setState({ isLoading: false });
-      }
+        setPictures([...pictures, ...res]);
+      });
+    } catch (error) {
+      // setError(error);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
-  }
+  }, [searchQuery, pageNumber, loadMore]);
 
-  formSubmitHandler = query => {
-    this.setState({ searchQuery: query, pageNumber: 1, pictures: [] });
+  const formSubmitHandler = query => {
+    setSearchQuery(query);
+    setPageNumber(1);
+    setPictures([]);
     // localStorage.setItem('pictures', JSON.stringify(this.state.pictures));
   };
 
-  imageClickHandler = url => {
-    this.setState({ modalURL: url });
-    this.toggleModal();
+  const imageClickHandler = url => {
+    console.log('url', url);
+    setModalURL(url);
+    toggleModal();
   };
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({ showModal: !showModal }));
+  const toggleModal = () => {
+    setShowModal(showModal => {
+      return !showModal;
+    });
+    console.log(showModal);
   };
 
-  loadMoreHandler = pageNumber => {
-    this.setState({ pageNumber });
-  };
-
-  render() {
-    const { isLoading, pictures, showModal, modalURL, loadMore } = this.state;
-    return (
-      <div>
-        <SearchBar onSubmit={this.formSubmitHandler} />
-        <div className="gallery-wrap">
-          <ImageGallery>
-            {pictures.map(picture => (
-              <ImageGalleryItem
-                key={picture.id}
-                picture={picture}
-                onClick={this.imageClickHandler}
-              ></ImageGalleryItem>
-            ))}
-          </ImageGallery>
-          {loadMore && (
-            <Button
-              onClick={this.loadMoreHandler}
-              page={this.state.pageNumber}
-            ></Button>
-          )}
-        </div>
-        {isLoading && <Loader />}
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <img src={modalURL} alt={pictures.tags} />
-          </Modal>
+  return (
+    <div>
+      <SearchBar onSubmit={formSubmitHandler} />
+      <div className="gallery-wrap">
+        <ImageGallery>
+          {pictures.map(picture => (
+            <ImageGalleryItem
+              key={picture.id}
+              picture={picture}
+              onClick={imageClickHandler}
+            ></ImageGalleryItem>
+          ))}
+        </ImageGallery>
+        {loadMore && (
+          <Button onClick={setPageNumber} page={pageNumber}></Button>
         )}
       </div>
-    );
-  }
-}
+      {isLoading && <Loader />}
+      {showModal && (
+        <Modal onClose={toggleModal}>
+          <img src={modalURL} alt={pictures.tags} />
+        </Modal>
+      )}
+    </div>
+  );
+};

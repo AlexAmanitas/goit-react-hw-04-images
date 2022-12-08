@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createPortal } from 'react-dom';
+// import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { ModalStyle } from './Modal.styled';
 import { Backdrop } from 'components/Loader/Loader.styled';
@@ -16,6 +16,7 @@ export default class Modal extends Component {
   }
 
   handleKeyDown = evt => {
+    console.log('object');
     if (evt.code === 'Escape') {
       this.props.onClose();
     }
@@ -28,14 +29,16 @@ export default class Modal extends Component {
   };
 
   render() {
-    return createPortal(
-      <Backdrop onClick={this.handleBackdropClick}>
-        <ModalStyle>{this.props.children}</ModalStyle>
-      </Backdrop>,
+    return (
+      (
+        <Backdrop onClick={this.handleBackdropClick}>
+          <ModalStyle>{this.props.children}</ModalStyle>
+        </Backdrop>
+      ),
       modalRoot
     );
   }
 }
 Modal.propTypes = {
-  onCose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
