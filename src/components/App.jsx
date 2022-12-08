@@ -49,6 +49,7 @@ export const App = () => {
         }
         setPictures(prevPictures => [...prevPictures, ...res]);
       })
+      .catch(console.error())
       .finally(() => {
         setIsLoading(false);
       });

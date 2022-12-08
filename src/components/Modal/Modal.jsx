@@ -7,20 +7,19 @@ import { Backdrop } from 'components/Loader/Loader.styled';
 const modalRoot = document.querySelector('#modal-root');
 
 export default function Modal({ children, onClose }) {
-  // console.log(props);
   useEffect(() => {
+    const handleKeyDown = evt => {
+      console.log('object');
+      if (evt.code === 'Escape') {
+        onClose();
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
-
-  const handleKeyDown = evt => {
-    console.log('object');
-    if (evt.code === 'Escape') {
-      onClose();
-    }
-  };
+  }, [onClose]);
 
   const handleBackdropClick = evt => {
     if (evt.target === evt.currentTarget) {
