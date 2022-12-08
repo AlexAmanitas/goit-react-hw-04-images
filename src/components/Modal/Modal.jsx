@@ -9,7 +9,6 @@ const modalRoot = document.querySelector('#modal-root');
 export default function Modal({ children, onClose }) {
   useEffect(() => {
     const handleKeyDown = evt => {
-      console.log('object');
       if (evt.code === 'Escape') {
         onClose();
       }

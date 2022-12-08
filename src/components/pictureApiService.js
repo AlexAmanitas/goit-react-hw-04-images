@@ -14,7 +14,6 @@ async function fetchPictures(searchQuery, pageNumber) {
     per_page: 12,
   });
   const data = await axios.get(`${base_url}${searchParams}`);
-  // console.log(data.data.hits, pageNumber);
   return data.data.hits;
 }
 
