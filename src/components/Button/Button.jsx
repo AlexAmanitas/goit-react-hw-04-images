@@ -4,7 +4,6 @@ import { LoadMoreButton } from './Button.styled';
 const Button = ({ page, onClick }) => {
   let pageNumber = page;
   const handleClick = evt => {
-    console.log(evt);
     pageNumber += 1;
     onClick(pageNumber);
   };

@@ -35,7 +35,6 @@ export const App = () => {
 
     findPictures
       .then(res => {
-        console.log(res);
         if (res.length === 0) {
           Notiflix.Notify.failure(
             'Sorry, there are no images matching your search query. Please try again.'
@@ -49,7 +48,6 @@ export const App = () => {
         }
         setPictures(prevPictures => [...prevPictures, ...res]);
       })
-      .catch(console.error())
       .finally(() => {
         setIsLoading(false);
       });
