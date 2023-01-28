@@ -13,7 +13,6 @@ export default function Modal({ children, onClose }) {
         onClose();
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -34,5 +33,6 @@ export default function Modal({ children, onClose }) {
   );
 }
 Modal.propTypes = {
+  children: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 };

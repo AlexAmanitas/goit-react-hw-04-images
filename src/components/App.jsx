@@ -3,7 +3,6 @@ import Notiflix from 'notiflix';
 import fetchPictures from './pictureApiService';
 import SearchBar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-import ImageGalleryItem from 'components/ImageGalleryItem';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal';
@@ -64,15 +63,10 @@ export const App = () => {
     <div>
       <SearchBar onSubmit={formSubmitHandler} />
       <div className="gallery-wrap">
-        <ImageGallery>
-          {pictures.map(picture => (
-            <ImageGalleryItem
-              key={picture.id}
-              picture={picture}
-              onClick={imageClickHandler}
-            ></ImageGalleryItem>
-          ))}
-        </ImageGallery>
+        <ImageGallery
+          pictures={pictures}
+          onClick={imageClickHandler}
+        ></ImageGallery>
         {loadMore && (
           <Button onClick={setPageNumber} page={pageNumber}></Button>
         )}
