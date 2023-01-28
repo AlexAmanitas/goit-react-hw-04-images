@@ -8,12 +8,6 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal';
 
-Notiflix.Notify.init({
-  position: 'left-top',
-  cssAnimationStyle: 'zoom',
-  fontSize: '20px',
-});
-
 export const App = () => {
   const [pictures, setPictures] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,17 +16,14 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadMore, setLoadMore] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  // const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!searchQuery) {
       return;
     }
-
     setIsLoading(true);
     const findPictures = fetchPictures(searchQuery, pageNumber);
     setLoadMore(true);
-
     findPictures
       .then(res => {
         if (res.length === 0) {
