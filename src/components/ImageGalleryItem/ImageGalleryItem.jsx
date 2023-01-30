@@ -7,6 +7,7 @@ const ImageGalleryItem = ({
   onClick,
 }) => {
   const handleImgClick = evt => {
+    evt.preventDefault();
     onClick(largeImageURL);
   };
 

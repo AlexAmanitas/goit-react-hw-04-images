@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import '../Searchbar/Searchbar.css';
 import PropTypes from 'prop-types';
+import goit from './goit.webp';
 
 const SearchBar = ({ onSubmit }) => {
   const [query, setQuery] = useState('');
@@ -19,6 +20,7 @@ const SearchBar = ({ onSubmit }) => {
 
   return (
     <header className="searchbar">
+      <img src={goit} alt="goit logo)" className="logo" width="100" />
       <form className="form" onSubmit={handleSubmit}>
         <button type="submit" className="search-btn">
           <span className="button-label">

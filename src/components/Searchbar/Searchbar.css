@@ -6,6 +6,12 @@
   z-index: 5;
 }
 
+.logo {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+}
+
 .form {
   position: fixed;
   padding-top: 12px;
@@ -14,6 +20,7 @@
   margin: 0 auto;
   display: flex;
   justify-content: center;
+
   transition: transform 250ms linear;
 }
 
@@ -23,6 +30,7 @@
   border: none;
   outline: none;
   margin-right: auto;
+  border-radius: 0 6px 6px 0;
 }
 
 .form.hidden {
@@ -35,8 +43,15 @@
   background-color: #fff;
   color: #222;
   border: none;
+  border-radius: 6px 0 0 6px;
+
   cursor: pointer;
   transition: background-color 300ms linear, color 300ms linear;
+}
+
+.search-btn:hover {
+  background-color: #ff6c00;
+  color: #fff;
 }
 
 .search-icon {
