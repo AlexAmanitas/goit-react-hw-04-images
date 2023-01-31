@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
-import '../Searchbar/Searchbar.css';
+import './Searchbar.css';
 import PropTypes from 'prop-types';
 import goit from './goit.webp';
 

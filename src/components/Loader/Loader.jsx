@@ -1,9 +1,9 @@
 import { Rings } from 'react-loader-spinner';
-import { Backdrop } from './Loader.styled';
+import './Loader.css';
 
 const Loader = () => {
   return (
-    <Backdrop>
+    <div className="backdrop">
       <Rings
         height="100"
         width="100"
@@ -19,7 +19,7 @@ const Loader = () => {
         visible={true}
         ariaLabel="rings-loading"
       />
-    </Backdrop>
+    </div>
   );
 };
 

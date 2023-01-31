@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { ModalStyle } from './Modal.styled';
-import { Backdrop } from 'components/Loader/Loader.styled';
 import { Oval } from 'react-loader-spinner';
+import './Modal.css';
 
 const modalRoot = document.querySelector('#modal-root');
 
@@ -27,7 +26,7 @@ export default function Modal({ children, onClose }) {
   };
 
   return createPortal(
-    <Backdrop onClick={handleBackdropClick}>
+    <div onClick={handleBackdropClick} className="backdrop">
       <Oval
         height="80"
         width="80"
@@ -44,8 +43,8 @@ export default function Modal({ children, onClose }) {
         visible={true}
         ariaLabel="tail-spin-loading"
       />
-      <ModalStyle>{children}</ModalStyle>
-    </Backdrop>,
+      <div className="modal">{children}</div>
+    </div>,
     modalRoot
   );
 }

@@ -59,18 +59,23 @@ export const App = () => {
     setShowModal(showModal => !showModal);
   };
 
+  console.log(pictures.length);
+
   return (
     <div>
       <SearchBar onSubmit={formSubmitHandler} />
-      <div className="gallery-wrap">
-        <ImageGallery
-          pictures={pictures}
-          onClick={imageClickHandler}
-        ></ImageGallery>
-        {loadMore && (
-          <Button onClick={setPageNumber} page={pageNumber}></Button>
-        )}
-      </div>
+      {pictures.length && (
+        <div className="gallery-wrap">
+          <ImageGallery
+            pictures={pictures}
+            onClick={imageClickHandler}
+          ></ImageGallery>
+
+          {loadMore && !isLoading && (
+            <Button onClick={setPageNumber} page={pageNumber}></Button>
+          )}
+        </div>
+      )}
       {isLoading && <Loader />}
       {showModal && (
         <Modal onClose={toggleModal}>
